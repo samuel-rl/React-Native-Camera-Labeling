@@ -26,7 +26,7 @@
   return labeler;
 }
 
-static inline id getLabels(Frame* frame, NSArray* arguments) {
+static inline id labelImage(Frame* frame, NSArray* arguments) {
   MLKVisionImage *image = [[MLKVisionImage alloc] initWithBuffer:frame.buffer];
   image.orientation = frame.orientation;
 
@@ -41,6 +41,6 @@ static inline id getLabels(Frame* frame, NSArray* arguments) {
   return results;
 }
 
-VISION_EXPORT_FRAME_PROCESSOR(getLabels)
+VISION_EXPORT_FRAME_PROCESSOR(labelImage)
 
 @end

@@ -6,7 +6,7 @@ import {
   useCameraDevices,
   useFrameProcessor,
 } from 'react-native-vision-camera';
-import {getLabels} from './getLabels';
+import {labelImage} from './labelImage';
 
 const App = () => {
   const [hasPermission, setHasPermission] = React.useState(false);
@@ -24,7 +24,7 @@ const App = () => {
 
   const frameProcessor = useFrameProcessor(frame => {
     'worklet';
-    const imageLabels = getLabels(frame);
+    const imageLabels = labelImage(frame);
     console.log(imageLabels);
   }, []);
 
