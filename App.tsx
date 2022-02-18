@@ -1,7 +1,12 @@
 import React, {useEffect} from 'react';
 import {StatusBar, StyleSheet, Text, View} from 'react-native';
 import 'react-native-reanimated';
-import {Camera, useCameraDevices} from 'react-native-vision-camera';
+import {
+  Camera,
+  useCameraDevices,
+  useFrameProcessor,
+} from 'react-native-vision-camera';
+import {getLabels} from './getLabels';
 
 const App = () => {
   const [hasPermission, setHasPermission] = React.useState(false);
@@ -16,6 +21,12 @@ const App = () => {
 
   const devices = useCameraDevices();
   const device = devices.back;
+
+  const frameProcessor = useFrameProcessor(frame => {
+    'worklet';
+    const imageLabels = getLabels(frame);
+    console.log(imageLabels);
+  }, []);
 
   if (!hasPermission) {
     return (
@@ -36,7 +47,13 @@ const App = () => {
   return (
     <View style={styles.container}>
       <StatusBar hidden />
-      <Camera style={StyleSheet.absoluteFill} device={device} isActive />
+      <Camera
+        style={StyleSheet.absoluteFill}
+        device={device}
+        isActive
+        frameProcessor={frameProcessor}
+        frameProcessorFps={20}
+      />
     </View>
   );
 };
